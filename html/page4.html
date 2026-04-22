@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóa Đơn Thanh Toán</title>
+    <link rel="stylesheet" href="../css/style4.css">
+</head>
+<body>
+
+    <div class="invoice-container">
+        <h1>Hóa Đơn Thanh Toán</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá (VNĐ)</th>
+                    <th>Thành tiền (VNĐ)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Sản phẩm A</td>
+                    <td class="sl">3</td>
+                    <td class="dg">1000</td>
+                    <td class="tt"></td> 
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Sản phẩm B</td>
+                    <td class="sl">4</td>
+                    <td class="dg">2000</td>
+                    <td class="tt"></td> 
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Sản phẩm C</td>
+                    <td class="sl">5</td>
+                    <td class="dg">4000</td>
+                    <td class="tt"></td> 
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Sản phẩm D</td>
+                    <td class="sl">2</td>
+                    <td class="dg">5000</td>
+                    <td class="tt"></td> 
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="4">Tổng thanh toán</td>
+                    <td id="tong"></td> 
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script>
+  
+        const dongia = document.getElementsByClassName("dg"); 
+        const soluong = document.getElementsByClassName("sl"); 
+        const thanhtien = document.getElementsByClassName("tt");
+        let tong = 0; 
+
+        for(let i = 0; i < dongia.length; i++){
+         
+            thanhtien[i].innerHTML = dongia[i].innerHTML * soluong[i].innerHTML;
+            tong = tong + parseInt(thanhtien[i].innerHTML);
+        }
+        document.getElementById("tong").innerHTML = tong;
+    </script>
+</body>
+</html>

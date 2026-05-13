@@ -3,115 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tra Cứu Học Phí</title>
+    <title>Tra Cứu Học Phí Sinh Viên</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
-        <header>
-            <h1>Hệ Thống Tra Cứu Học Phí</h1>
-            <p>Nhập mã sinh viên hoặc tên ngành để tìm kiếm thông tin học phí nhanh chóng.</p>
-        </header>
-
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Nhập tên ngành, mã lớp..." onkeyup="searchFunction()">
-            <button type="button">Tìm kiếm</button>
-        </div>
-
-        <div class="table-responsive">
-            <table id="feeTable">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã Ngành</th>
-                        <th>Tên Ngành Học</th>
-                        <th>Số Tín Chỉ</th>
-                        <th>Học Phí / Tín Chỉ</th>
-                        <th>Học Phí Tạm Tính (Kỳ)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>CNTT01</td>
-                        <td>Công nghệ thông tin</td>
-                        <td>18</td>
-                        <td>450.000 đ</td>
-                        <td class="price">8.100.000 đ</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>NNA02</td>
-                        <td>Ngôn ngữ Anh</td>
-                        <td>15</td>
-                        <td>400.000 đ</td>
-                        <td class="price">6.000.000 đ</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>QTKD03</td>
-                        <td>Quản trị kinh doanh</td>
-                        <td>19</td>
-                        <td>420.000 đ</td>
-                        <td class="price">7.980.000 đ</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>KHMT04</td>
-                        <td>Khoa học máy tính</td>
-                        <td>20</td>
-                        <td>450.000 đ</td>
-                        <td class="price">9.000.000 đ</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>DTVT05</td>
-                        <td>Điện tử viễn thông</td>
-                        <td>17</td>
-                        <td>430.000 đ</td>
-                        <td class="price">7.310.000 đ</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <h2>Cổng Tra Cứu Học Phí Sinh Viên</h2>
         
-        <div id="noResult" class="no-result" style="display: none;">
-            Không tìm thấy kết quả phù hợp.
+        <div class="search-box">
+            <input type="text" id="masv-input" placeholder="Nhập mã số sinh viên (Ví dụ: SV001, SV002...)" />
+            <button onclick="traCuuHocPhi()">Tra cứu</button>
         </div>
+
+        <div class="result-container" id="result-area">
+            </div>
     </div>
 
     <script>
-        function searchFunction() {
-            let input = document.getElementById("searchInput");
-            let filter = input.value.toUpperCase();
-            let table = document.getElementById("feeTable");
-            let tr = table.getElementsByTagName("tr");
-            let noResult = document.getElementById("noResult");
-            let found = false;
+        // Kho dữ liệu học phí mẫu (Các lớp DA24TTA, TTB, TTC, TTD)
+        const danhSachHocPhi = [
+            { mssv: "110124047", ten: "Lâm Nguyễn Nhật Duy", lop: "DA24TTA", hocKy: "Học kỳ 1 (2025-2026)", sotien: "9.500.000 đ" },
+            { mssv: "SV002", ten: "Le Thi B", lop: "DA24TTB", hocKy: "Học kỳ 1 (2025-2026)", sotien: "9.500.000 đ" },
+            { mssv: "SV003", ten: "Tran Van C", lop: "DA24TTC", hocKy: "Học kỳ 1 (2025-2026)", sotien: "10.200.000 đ" },
+            { mssv: "SV004", ten: "Hoang Thi D", lop: "DA24TTD", hocKy: "Học kỳ 1 (2025-2026)", sotien: "10.200.000 đ" },
+            { mssv: "SV005", ten: "Pham Van E", lop: "DA24TTA", hocKy: "Học kỳ 2 (2025-2026)", sotien: "8.800.000 đ" }
+        ];
 
-            for (let i = 1; i < tr.length; i++) {
-                let tdName = tr[i].getElementsByTagName("td")[2]; // Cột Tên Ngành
-                let tdCode = tr[i].getElementsByTagName("td")[1]; // Cột Mã Ngành
-                if (tdName || tdCode) {
-                    let txtValueName = tdName.textContent || tdName.innerText;
-                    let txtValueCode = tdCode.textContent || tdCode.innerText;
-                    if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueCode.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        found = true;
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
+        function traCuuHocPhi() {
+            // Lấy giá trị user nhập vào, bỏ khoảng trắng và chuyển thành chữ in hoa
+            const inputVal = document.getElementById("masv-input").value.trim().toUpperCase();
+            const resultArea = document.getElementById("result-area");
             
-            // Hiển thị thông báo nếu không tìm thấy
-            if (found || filter === "") {
-                table.style.display = "";
-                noResult.style.display = "none";
+            // Xóa kết quả cũ trước khi tìm kiếm mới
+            resultArea.innerHTML = "";
+
+            if (inputVal === "") {
+                resultArea.innerHTML = "<p class='no-result'>Vui lòng nhập mã số sinh viên cần tra cứu!</p>";
+                return;
+            }
+
+            // Tìm kiếm sinh viên có MSSV trùng khớp
+            const sinhVien = danhSachHocPhi.find(sv => sv.mssv === inputVal);
+
+            if (sinhVien) {
+                // Nếu tìm thấy, dựng cấu trúc bảng hiển thị thông tin lên màn hình
+                resultArea.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã số SV</th>
+                                <th>Tên sinh viên</th>
+                                <th>Lớp</th>
+                                <th>Học kỳ</th>
+                                <th>Học phí phải nộp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>${sinhVien.mssv}</strong></td>
+                                <td>${sinhVien.ten}</td>
+                                <td>${sinhVien.lop}</td>
+                                <td>${sinhVien.hocKy}</td>
+                                <td style="color: #e74c3c; font-weight: bold;">${sinhVien.sotien}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
             } else {
-                table.style.display = "none";
-                noResult.style.display = "block";
+                // Nếu không tìm thấy
+                resultArea.innerHTML = "<p class='no-result'>Không tìm thấy thông tin cho mã số sinh viên này.</p>";
             }
         }
     </script>

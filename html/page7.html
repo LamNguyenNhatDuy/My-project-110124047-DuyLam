@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa Hàng Xếp Hàng Ngang</title>
+    <link rel="stylesheet" href="../css/style7.css">
+</head>
+<body>
+
+    <h2>Danh Sách Sản Phẩm Công Nghệ</h2>
+
+    <div class="product-container-flex" id="product-list"></div>
+
+    <script>
+        // Kho dữ liệu sản phẩm - ĐƠN VỊ ĐỒNG BỘ ĐƯỜNG DẪN THEO IPHONE
+        const danhSachSanPham = [
+            { id: "01", ten: "Điện thoại iPhone", gia: "25.000.000 đ", anh: "../assets/images/iphone.jpg", duongDan: "../danhmucsp/iphone.html" },
+            { id: "02", ten: "Máy tính Laptop", gia: "18.500.000 đ", anh: "../assets/images/laptop.jpg", duongDan: "../danhmucsp/laptop.html" },
+            { id: "03", ten: "Tai nghe không dây", gia: "1.200.000 đ", anh: "../assets/images/tainghe.jpg", duongDan: "../danhmucsp/tainghe.html" },
+            { id: "04", ten: "Đồng hồ thông minh", gia: "4.500.000 đ", anh: "../assets/images/dongho.jpg", duongDan: "../danhmucsp/dongho.html" },
+            { id: "05", ten: "Chuột Máy Tính", gia: "450.000 đ", anh: "../assets/images/chuot.jpg", duongDan: "../danhmucsp/chuot.html" },
+            { id: "06", ten: "Bàn phím cơ", gia: "1.850.000 đ", anh: "../assets/images/ban-phim.jpg", duongDan: "../danhmucsp/banphim.html" },
+            { id: "07", ten: "Chuột không dây", gia: "850.000 đ", anh: "../assets/images/chuot.jpg", duongDan: "../danhmucsp/chuotkhongday.html" },
+            { id: "08", ten: "Loa Bluetooth Mini", gia: "1.500.000 đ", anh: "../assets/images/loa.jpg", duongDan: "../danhmucsp/loa.html" },
+            { id: "09", ten: "Sạc dự phòng 20000mAh", gia: "650.000 đ", anh: "../assets/images/sac-du-phong.jpg", duongDan: "../danhmucsp/sacduphong.html" },
+            { id: "10", ten: "Balo chống nước", gia: "950.000 đ", anh: "../assets/images/balo.jpg", duongDan: "../danhmucsp/balo.html" }
+        ];
+
+        const productList = document.getElementById("product-list");
+
+        danhSachSanPham.forEach(sp => {
+            const productHtml = `
+                <div class="product-card">
+                    <img src="${sp.anh}" alt="${sp.ten}">
+                    <div class="product-name">${sp.ten}</div>
+                    <div class="product-price">${sp.gia}</div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-buy" onclick="clickMua('${sp.ten}')">Mua ngay</button>
+                        <button class="btn btn-info" onclick="window.location.href='${sp.duongDan}'">Xem thông tin</button>
+                    </div>
+                </div>
+            `;
+            productList.innerHTML += productHtml;
+        });
+
+        function clickMua(tenSP) {
+    // Chuyển hướng trực tiếp sang file hoadon.html nằm chung một thư mục html/
+                window.location.href = "../muangay/hoadon.html";}
+    </script>
+</body>
+</html>

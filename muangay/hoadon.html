@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Giao Hàng & Thanh Toán</title>
+    <link rel="stylesheet" href="../css/style7.css">
+    <style>
+        .checkout-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            background-color: #ffffff;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #000000;
+            border-radius: 2px;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .radio-item input {
+            width: auto;
+            cursor: pointer;
+        }
+        .radio-item span {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <h2 style="font-size: 20px; margin-bottom: 30px; letter-spacing: 2px;">Thông Tin Giao Hàng</h2>
+        
+        <form id="checkoutForm" onsubmit="xuLyDatHang(event)">
+            <div class="form-group">
+                <label for="fullname">Họ và tên *</label>
+                <input type="text" id="fullname" placeholder="Nguyễn Văn A" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Số điện thoại *</label>
+                <input type="tel" id="phone" placeholder="0901234567" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Địa chỉ nhận hàng *</label>
+                <input type="text" id="address" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required>
+            </div>
+
+            <div class="form-group">
+                <label>Hình thức thanh toán *</label>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="payment" value="COD" checked>
+                        <span>Thanh toán tiền mặt khi nhận hàng (COD)</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="payment" value="Banking">
+                        <span>Chuyển khoản ngân hàng (Qua thẻ/Qua mã QR)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button type="submit" class="btn btn-buy">Xác nhận đặt hàng</button>
+            </div>
+        </form>
+
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="page7.html" style="color: #666; font-size: 13px; text-decoration: none; border-bottom: 1px solid #666;">← Quay lại cửa hàng</a>
+        </div>
+    </div>
+
+    <script>
+        function xuLyDatHang(event) {
+            event.preventDefault(); // Ngăn trang web tải lại dữ liệu khi submit form
+            
+            // Lấy dữ liệu người dùng nhập vào
+            const ten = document.getElementById('fullname').value;
+            const sdt = document.getElementById('phone').value;
+            const diachi = document.getElementById('address').value;
+            const hinhThuc = document.querySelector('input[name="payment"]:checked').value;
+
+            // Xử lý thông báo theo hình thức thanh toán được chọn
+            if(hinhThuc === "COD") {
+                alert(`🎉 Đặt hàng thành công!\n\nCảm ơn bạn ${ten}.\nĐơn hàng sẽ được giao đến địa chỉ: ${diachi}.\nSố tiền sẽ thanh toán trực tiếp khi nhận hàng.`);
+            } else {
+                alert(`🎉 Đăng ký thông tin thành công!\n\nCảm ơn bạn ${ten}.\nVui lòng thực hiện chuyển khoản vào số tài khoản của cửa hàng để hoàn tất đơn hàng giao đến: ${diachi}.`);
+            }
+
+            // Đặt hàng xong tự động chuyển hướng về lại trang danh sách sản phẩm
+            window.location.href = "page7.html";
+        }
+    </script>
+</body>
+</html>
